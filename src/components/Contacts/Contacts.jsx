@@ -1,4 +1,5 @@
 import css from './Contacts.module.scss';
+import PropTypes  from 'prop-types';
 
 const Contact = ({
   name = '',
@@ -23,7 +24,7 @@ const Contact = ({
 };
 
 export const Contacts = ({ title, contacts, onDelete, children }) => {
-  console.log(contacts);
+  
   return (
     <>
       <div>
@@ -43,3 +44,15 @@ export const Contacts = ({ title, contacts, onDelete, children }) => {
     </>
   );
 };
+
+Contacts.propTypes = {
+  title: PropTypes.string.isRequired,
+  contacts: PropTypes.arrayOf(PropTypes.exact({
+    name:PropTypes.string.isRequired,
+    number:PropTypes.number.isRequired,
+    id:PropTypes.string.isRequired,
+    onDelete:PropTypes.func.isRequired,
+  })),
+  onDelete:PropTypes.func,
+  children:PropTypes.node,
+}

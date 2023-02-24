@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import css from './Form.module.scss';
+import PropTypes  from 'prop-types';
+
 const INIT_STATE = {
   name: '',
   number: '',
@@ -19,7 +21,6 @@ export class Form extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(e.currentTarget.elements)
     this.props.handleFormSubmit({ ...this.state });
     this.reset();
   };
@@ -65,3 +66,9 @@ export class Form extends Component {
     );
   }
 }
+
+Form.propTypes = {
+  handleFormSubmit:PropTypes.func.isRequired,
+}
+
+

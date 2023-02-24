@@ -33,7 +33,6 @@ export class App extends Component {
   filterContacts = () => {
     const { filter, contacts } = this.state;
     const formatedName = filter.trim().toLowerCase();
-    console.log(formatedName)
     return contacts.filter(contact => contact.name.toLowerCase().includes(formatedName));
   };
 
