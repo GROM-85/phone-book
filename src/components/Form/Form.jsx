@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import React, { Component } from 'react';
 import css from './Form.module.scss';
-import shortid from 'shortid';
 const INIT_STATE = {
   name: '',
   number: '',
