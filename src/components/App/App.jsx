@@ -19,7 +19,7 @@ export class App extends Component {
     const initialContacts = JSON.parse(localStorage.getItem(CONTACT))|| [];
     this.setState({contacts: initialContacts});
   }
-  
+
   componentDidUpdate(prevState,prevProps){
     if(prevState.constacts !== this.state.contacts){
       localStorage.setItem(CONTACT,JSON.stringify(this.state.contacts))
