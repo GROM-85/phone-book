@@ -5,6 +5,8 @@ import { Contacts } from 'components/Contacts';
 import { Filter } from 'components/Filter/Filter';
 import { Container } from './App.styled';
 
+const CONTACT = "contact";
+
 export class App extends Component {
   state = {
     contacts: [],
@@ -12,6 +14,17 @@ export class App extends Component {
   };
 
   filteredContacts = this.state.contacts;
+
+  componentDidMount(prevState,prevProps){
+    const initialContacts = JSON.parse(localStorage.getItem(CONTACT))|| [];
+    this.setState({contacts: initialContacts});
+  }
+  
+  componentDidUpdate(prevState,prevProps){
+    if(prevState.constacts !== this.state.contacts){
+      localStorage.setItem(CONTACT,JSON.stringify(this.state.contacts))
+    }
+  }
 
   handleFormSubmit = contact => {
     if(this.nameVerification(contact.name)) return ;
