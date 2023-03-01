@@ -23,7 +23,7 @@ const Contact = ({
   );
 };
 
-export const Contacts = ({ title, contacts, onDelete, children }) => {
+export const Contacts = ({ title, contacts, onDelete =()=>null, children }) => {
   
   return (
     <>
@@ -34,6 +34,7 @@ export const Contacts = ({ title, contacts, onDelete, children }) => {
       <ul className={css.contact__list}>
         {contacts.map(contact => (
           <Contact
+            key={contact.id}
             name={contact.name}
             number={contact.number}
             id={contact.id}
@@ -49,9 +50,8 @@ Contacts.propTypes = {
   title: PropTypes.string.isRequired,
   contacts: PropTypes.arrayOf(PropTypes.exact({
     name:PropTypes.string.isRequired,
-    number:PropTypes.number.isRequired,
+    number:PropTypes.string.isRequired,
     id:PropTypes.string.isRequired,
-    onDelete:PropTypes.func.isRequired,
   })),
   onDelete:PropTypes.func,
   children:PropTypes.node,
