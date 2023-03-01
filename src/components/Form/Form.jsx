@@ -3,8 +3,8 @@ import css from './Form.module.scss';
 import PropTypes  from 'prop-types';
 
 const INIT_STATE = {
-  name: '',
-  number: '',
+  name: "",
+  number: "",
 };
 
 export const Form = ({handleFormSubmit = ()=>null,}) =>{
