@@ -4,16 +4,24 @@ import { Form } from 'components/Form';
 import { Contacts } from 'components/Contacts';
 import { Filter } from 'components/Filter/Filter';
 import { Container } from './App.styled';
+import { useIdContext } from 'components/contexts/IdContext';
 
 const CONTACT = "contact";
 
 export const App = () =>{
+
   const [contacts,setContacts] = useState(()=>(JSON.parse(localStorage.getItem(CONTACT)) ?? []));
   const [filter,setFilter] = useState('');
+  const {id} = useIdContext();
 
   useEffect(()=>{
    localStorage.setItem(CONTACT,JSON.stringify(contacts));
   },[contacts]);
+
+  useEffect(()=>{
+    setContacts(contacts.filter(contact=>contact.id !== id))
+    // eslint-disable-next-line
+  },[id])
 
   const handleFormSubmit = (contact) =>{
     if(contacts.some(obj => obj.name === contact.name)){
@@ -28,11 +36,7 @@ export const App = () =>{
     setFilter(e.target.value);
   }
 
-  const deleteContact = (id) =>{
-    setContacts(contacts.filter(contact=>contact.id !== id))
-  }
   const filterContacts = () => {
-
     const formatedName = filter.trim().toLowerCase();
     return contacts.filter(contact => contact.name.toLowerCase().includes(formatedName));
   };
@@ -48,7 +52,7 @@ export const App = () =>{
         <Contacts
           contacts={filterContacts()}
           title="Contacts"
-          onDelete={deleteContact}
+          // onDelete={deleteContact}
         >
           <Filter filter={filter} handleInputChange={onFilterChange}/>
         </Contacts>

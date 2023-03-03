@@ -1,21 +1,22 @@
 import css from './Contacts.module.scss';
 import PropTypes  from 'prop-types';
+import { useIdContext } from 'components/contexts/IdContext';
 
 const Contact = ({
   name = '',
   number = '',
   id = '',
-  onDelete = () => null,
 }) => {
+  const {setId} = useIdContext();
   return (
-    <li className={css.contact__item} key={id}>
+    <li className={css.contact__item} >
       <p>
         {name} : {number}
       </p>
       <button
         className={css.contact__btn}
         type="button"
-        onClick={() => onDelete(id)}
+        onClick={() => setId(id)}
       >
         Delete
       </button>
@@ -23,7 +24,7 @@ const Contact = ({
   );
 };
 
-export const Contacts = ({ title, contacts, onDelete =()=>null, children }) => {
+export const Contacts = ({ title, contacts, children }) => {
   
   return (
     <>
@@ -38,7 +39,6 @@ export const Contacts = ({ title, contacts, onDelete =()=>null, children }) => {
             name={contact.name}
             number={contact.number}
             id={contact.id}
-            onDelete={onDelete}
           />
         ))}
       </ul>
@@ -53,6 +53,5 @@ Contacts.propTypes = {
     number:PropTypes.string.isRequired,
     id:PropTypes.string.isRequired,
   })),
-  onDelete:PropTypes.func,
   children:PropTypes.node,
 }
