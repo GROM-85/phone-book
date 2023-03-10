@@ -2,6 +2,7 @@ import { InputStyled } from './Filter.styled';
 import React from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { setFilter } from 'redux/PhoneBookSlice/slice';
+// eslint-disable-next-line
 import PropTypes  from 'prop-types';
 
 
