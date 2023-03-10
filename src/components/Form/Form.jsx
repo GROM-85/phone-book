@@ -68,6 +68,4 @@ export const Form = () => {
   );
 };
 
-Form.propTypes = {
- 
-};
+
