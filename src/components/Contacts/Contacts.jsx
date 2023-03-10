@@ -1,13 +1,16 @@
 import css from './Contacts.module.scss';
 import PropTypes  from 'prop-types';
-import { useIdContext } from 'components/contexts/IdContext';
+import { removeContact } from 'redux/PhoneBookSlice/slice';
+import { useDispatch} from 'react-redux';
 
 const Contact = ({
   name = '',
   number = '',
   id = '',
 }) => {
-  const {setId} = useIdContext();
+
+  const dispatch = useDispatch();
+
   return (
     <li className={css.contact__item} >
       <p>
@@ -16,7 +19,7 @@ const Contact = ({
       <button
         className={css.contact__btn}
         type="button"
-        onClick={() => setId(id)}
+        onClick={() => dispatch(removeContact(id))}
       >
         Delete
       </button>
@@ -24,7 +27,7 @@ const Contact = ({
   );
 };
 
-export const Contacts = ({ title, contacts, children }) => {
+export const Contacts = ({ title,contacts, children }) => {
   
   return (
     <>

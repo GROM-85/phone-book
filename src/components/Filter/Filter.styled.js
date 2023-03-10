@@ -5,7 +5,7 @@ width:250px;
 padding: 4px 10px;
 
 :focus{
-    ouline:none;
+    outline:none;
     border-color: blue;
 }
 `

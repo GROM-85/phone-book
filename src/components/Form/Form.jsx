@@ -1,37 +1,44 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addContact } from 'redux/PhoneBookSlice/slice';
 import css from './Form.module.scss';
-import PropTypes  from 'prop-types';
 
 const INIT_STATE = {
-  name: "",
-  number: "",
+  name: '',
+  number: '',
 };
 
-export const Form = ({handleFormSubmit = ()=>null,}) =>{
+export const Form = () => {
+  const [form, setForm] = useState(INIT_STATE);
+  const contacts = useSelector(state => state.phoneBook.contacts);
+  const dispatch = useDispatch();
 
-  const [form,setForm] = useState(INIT_STATE);
-  
+  const handleInputsChange = e => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
 
-  const handleInputsChange  = (e) =>{
-    const {name,value} = e.target;
-    setForm({...form,[name]:value})
-  }
-
-  const handleSubmit = (e) =>{
+  const handleSubmit = e => {
     e.preventDefault();
-    handleFormSubmit({...form})
+
+    if (contacts.some(obj => obj.name === form.name)) {
+      alert(`${form.name} is already in contacts!`);
+      return;
+    }
+    
+    dispatch(addContact(form));
     reset();
-  }
+  };
 
   const reset = () => {
     setForm(INIT_STATE);
-  }
+  };
   return (
     <form className={css.form} onSubmit={handleSubmit}>
       <label className={css.form__label}>
         Name
         <input
-        className={css.form__input}
+          className={css.form__input}
           type="text"
           name="name"
           value={form.name}
@@ -41,11 +48,11 @@ export const Form = ({handleFormSubmit = ()=>null,}) =>{
           required
         />
       </label>
-     
+
       <label className={css.form__label}>
-      Number
+        Number
         <input
-        className={css.form__input}
+          className={css.form__input}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -59,11 +66,8 @@ export const Form = ({handleFormSubmit = ()=>null,}) =>{
       </button>
     </form>
   );
-
-}
+};
 
 Form.propTypes = {
-  handleFormSubmit:PropTypes.func.isRequired,
-}
-
-
+ 
+};
