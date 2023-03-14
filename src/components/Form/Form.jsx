@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/PhoneBookSlice/slice';
+import phoneBookSelectors from 'redux/PhoneBookSlice/selectors';
+import * as phoneBookOperations from 'redux/PhoneBookSlice/phoneBookOperations';
+import {RotatingLines} from 'react-loader-spinner'
+
 import css from './Form.module.scss';
+import { nanoid } from '@reduxjs/toolkit';
 
 const INIT_STATE = {
   name: '',
@@ -10,7 +14,8 @@ const INIT_STATE = {
 
 export const Form = () => {
   const [form, setForm] = useState(INIT_STATE);
-  const contacts = useSelector(state => state.phoneBook.contacts);
+  const contacts = useSelector(phoneBookSelectors.getContacts);
+  const isLoadingForm = useSelector(phoneBookSelectors.getIsLoadingForm);
   const dispatch = useDispatch();
 
   const handleInputsChange = e => {
@@ -20,18 +25,18 @@ export const Form = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-
+    
     if (contacts.some(obj => obj.name === form.name)) {
       alert(`${form.name} is already in contacts!`);
       return;
     }
-    
-    dispatch(addContact(form));
+    dispatch(phoneBookOperations.addContact({...form,id:nanoid,  createdAt:new Date().toDateString(),}));
     reset();
   };
 
   const reset = () => {
     setForm(INIT_STATE);
+   
   };
   return (
     <form className={css.form} onSubmit={handleSubmit}>
@@ -63,6 +68,13 @@ export const Form = () => {
       </label>
       <button className={css.form__btn} type="submit">
         Add contact
+        {isLoadingForm && <RotatingLines
+         strokeColor="white"
+         strokeWidth="5"
+         animationDuration="0.75"
+         width="20"
+         visible={true}
+         />}
       </button>
     </form>
   );

@@ -1,34 +1,49 @@
 import css from './Contacts.module.scss';
-import PropTypes  from 'prop-types';
-import { removeContact } from 'redux/PhoneBookSlice/slice';
-import { useDispatch} from 'react-redux';
+import PropTypes from 'prop-types';
+import * as phoneBookOperations from 'redux/PhoneBookSlice/phoneBookOperations';
+import { useDispatch, useSelector } from 'react-redux';
+import phoneBookSelectors from 'redux/PhoneBookSlice/selectors';
+import { ThreeDots } from 'react-loader-spinner';
+import { setActiveId } from 'redux/PhoneBookSlice/slice';
 
-const Contact = ({
-  name = '',
-  number = '',
-  id = '',
-}) => {
-
+const Contact = ({ name = '', number = '', id = '' }) => {
   const dispatch = useDispatch();
+  const isLoadingDelete = useSelector(phoneBookSelectors.getIsLoadingDelete);
+  const activeId = useSelector(phoneBookSelectors.getActiveId)
 
   return (
-    <li className={css.contact__item} >
+    <li className={css.contact__item}>
       <p>
         {name} : {number}
       </p>
       <button
         className={css.contact__btn}
         type="button"
-        onClick={() => dispatch(removeContact(id))}
+        onClick={() => {
+          dispatch(phoneBookOperations.deleteContact(id));
+          dispatch(setActiveId(id));
+        }}
       >
-        Delete
+        {(isLoadingDelete && activeId.includes(id)) ? (
+          <ThreeDots
+            height="10"
+            width="20"
+            radius="9"
+            color="white"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />
+        ) : (
+          'Delete'
+        )}
       </button>
     </li>
   );
 };
 
-export const Contacts = ({ title,contacts, children }) => {
-  
+export const Contacts = ({ title, contacts, children }) => {
   return (
     <>
       <div>
@@ -51,10 +66,12 @@ export const Contacts = ({ title,contacts, children }) => {
 
 Contacts.propTypes = {
   title: PropTypes.string.isRequired,
-  contacts: PropTypes.arrayOf(PropTypes.exact({
-    name:PropTypes.string.isRequired,
-    number:PropTypes.string.isRequired,
-    id:PropTypes.string.isRequired,
-  })),
-  children:PropTypes.node,
-}
+  contacts: PropTypes.arrayOf(
+    PropTypes.exact({
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+    })
+  ),
+  children: PropTypes.node,
+};

@@ -1,13 +1,13 @@
 import { InputStyled } from './Filter.styled';
 import React from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import { setFilter } from 'redux/PhoneBookSlice/slice';
-// eslint-disable-next-line
-import PropTypes  from 'prop-types';
+import { setFilter} from 'redux/PhoneBookSlice/slice';
+import phoneBookSelectors from 'redux/PhoneBookSlice/selectors';
+
 
 
 export const Filter = () => {
-  const filter = useSelector(state => state.phoneBook.filter);
+  const filter = useSelector(phoneBookSelectors.getFilter);
   
   const dispatch = useDispatch();
 
@@ -28,6 +28,4 @@ export const Filter = () => {
 }
 
 
-Filter.propTypes = {
-  
-}
+

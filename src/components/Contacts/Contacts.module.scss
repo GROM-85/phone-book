@@ -16,6 +16,9 @@
     &__btn{
         width:50px;
         height:20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         cursor:pointer;
         background-color: rgb(60, 244, 183);
         padding:2px 4px;

@@ -1,7 +1,7 @@
 import {phoneBookReducer} from "./PhoneBookSlice/slice";
 
 const rootReducer = {
-    phoneBook:phoneBookReducer,
+    phoneBook: phoneBookReducer,
 }
 
 export default rootReducer;
