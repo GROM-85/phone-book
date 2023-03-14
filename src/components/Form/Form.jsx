@@ -9,7 +9,7 @@ import { nanoid } from '@reduxjs/toolkit';
 
 const INIT_STATE = {
   name: '',
-  number: '',
+  phone: '',
 };
 
 export const Form = () => {
@@ -30,7 +30,7 @@ export const Form = () => {
       alert(`${form.name} is already in contacts!`);
       return;
     }
-    dispatch(phoneBookOperations.addContact({...form,id:nanoid,  createdAt:new Date().toDateString(),}));
+    dispatch(phoneBookOperations.addContact({...form,id:nanoid(),  createdAt:new Date().toDateString(),}));
     reset();
   };
 
@@ -59,10 +59,10 @@ export const Form = () => {
         <input
           className={css.form__input}
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          value={form.number}
+          value={form.phone}
           onChange={handleInputsChange}
         />
       </label>

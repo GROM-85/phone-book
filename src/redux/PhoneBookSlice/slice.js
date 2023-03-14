@@ -61,6 +61,7 @@ const phoneBookSlice = createSlice({
         state.contacts = state.contacts.filter(
           ({ id }) => id !== payload.id
         );
+        state.activeId = state.activeId.filter(activeId => activeId !== payload.id)
         state.isLoadingDelete = false;
       })
       .addCase(deleteContact.rejected, (state,{payload})=>{
