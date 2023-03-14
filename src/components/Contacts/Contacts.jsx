@@ -6,7 +6,7 @@ import phoneBookSelectors from 'redux/PhoneBookSlice/selectors';
 import { ThreeDots } from 'react-loader-spinner';
 import { setActiveId } from 'redux/PhoneBookSlice/slice';
 
-const Contact = ({ name = '', number = '', id = '' }) => {
+const Contact = ({ name = '', phone = '', id = '' }) => {
   const dispatch = useDispatch();
   const isLoadingDelete = useSelector(phoneBookSelectors.getIsLoadingDelete);
   const activeId = useSelector(phoneBookSelectors.getActiveId)
@@ -14,7 +14,7 @@ const Contact = ({ name = '', number = '', id = '' }) => {
   return (
     <li className={css.contact__item}>
       <p>
-        {name} : {number}
+        {name} : {phone}
       </p>
       <button
         className={css.contact__btn}
@@ -55,7 +55,7 @@ export const Contacts = ({ title, contacts, children }) => {
           <Contact
             key={contact.id}
             name={contact.name}
-            number={contact.number}
+            phone={contact.phone}
             id={contact.id}
           />
         ))}
