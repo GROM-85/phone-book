@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFilter } from 'redux/PhoneBookSlice/slice';
 import phoneBookSelectors from 'redux/PhoneBookSlice/selectors';
-import { TextField} from '@mui/material';
+import { TextField } from '@mui/material';
 
 export const Filter = () => {
   const filter = useSelector(phoneBookSelectors.getFilter);

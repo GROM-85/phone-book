@@ -2,7 +2,6 @@ import { Typography } from "@mui/material";
 import { NavLinkStyled } from "components/App/App.styled";
 import { useAuth } from "hooks/useAuth";
 
-
 export const Navigation = () =>{
   const {isLoggedIn} = useAuth();
     return(

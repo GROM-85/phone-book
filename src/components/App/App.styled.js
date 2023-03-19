@@ -6,7 +6,7 @@ display:flex;
 align-items:center;
 gap:30px;
 padding:30px
-`
+`;
 
 export const NavLinkStyled = styled(NavLink)`
     position:relative;
@@ -14,8 +14,6 @@ export const NavLinkStyled = styled(NavLink)`
     color:white;
     display: flex;
     align-items: center;
-    
-
 
     &:before{
         content:"";
@@ -32,5 +30,5 @@ export const NavLinkStyled = styled(NavLink)`
         transform:scale(1);
     }
 
-`
+`;
 
