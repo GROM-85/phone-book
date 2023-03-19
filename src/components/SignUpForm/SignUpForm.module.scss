@@ -1,0 +1,30 @@
+.paper{
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.avatar{
+    margin-bottom:10px;
+    background-color: rgb(75, 201, 239);
+}
+.form{
+    max-width: 100vw;
+    width:90%;
+    @media screen and (min-width:480px) {
+        max-width: 50vw;
+       
+    }
+    @media screen and (min-width:768px) {
+        max-width: 40vw;
+        width: 80%;
+        
+    }
+    margin-top: 20px;
+}
+.link{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+
+}

@@ -36,7 +36,6 @@ const phoneBookSlice = createSlice({
     builder
       .addCase(fetchContacts.pending,handlePending)
       .addCase(fetchContacts.fulfilled, (state, { payload }) => {
-        
          state.contacts = payload;
          state.isLoading = false;
       })
@@ -46,8 +45,8 @@ const phoneBookSlice = createSlice({
         state.isLoadingForm = true;
       })
       .addCase(addContact.fulfilled, (state, { payload }) => {
-        state.contacts.unshift(payload);
-        state.isLoadingForm = false;
+        return {...state,contacts:[...state.contacts,payload],isLoadingForm:false}
+       
       })
       .addCase(addContact.rejected, (state,{payload})=>{
         state.error = payload;

@@ -6,10 +6,16 @@ import {RotatingLines} from 'react-loader-spinner'
 
 import css from './Form.module.scss';
 import { nanoid } from '@reduxjs/toolkit';
+import { Button, FormGroup, InputAdornment, TextField } from '@mui/material';
+import { AccountCircle } from '@mui/icons-material';
+import PhoneEnabledRoundedIcon from '@mui/icons-material/PhoneEnabledRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import { toast } from 'react-hot-toast';
 
 const INIT_STATE = {
   name: '',
-  phone: '',
+  number: '',
+  info:'',
 };
 
 export const Form = () => {
@@ -27,7 +33,7 @@ export const Form = () => {
     e.preventDefault();
     
     if (contacts.some(obj => obj.name === form.name)) {
-      alert(`${form.name} is already in contacts!`);
+      toast(`⛔️ ${form.name} is already in contacts!`);
       return;
     }
     dispatch(phoneBookOperations.addContact({...form,id:nanoid(),  createdAt:new Date().toDateString(),}));
@@ -40,33 +46,63 @@ export const Form = () => {
   };
   return (
     <form className={css.form} onSubmit={handleSubmit}>
-      <label className={css.form__label}>
-        Name
-        <input
-          className={css.form__input}
+      <FormGroup sx={{ gap: 2, width: '100%' }}>
+      
+        <TextField
+          variant='standard'
           type="text"
           name="name"
+          label='Fullname'
           value={form.name}
           onChange={handleInputsChange}
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan."
           required
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <AccountCircle />
+              </InputAdornment>
+            ),
+          }}
         />
-      </label>
-
-      <label className={css.form__label}>
-        Number
-        <input
-          className={css.form__input}
+      
+       
+        <TextField
+          required
+          variant='standard'
+          label='Phone'
           type="tel"
-          name="phone"
+          name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          value={form.phone}
+          value={form.number}
           onChange={handleInputsChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <PhoneEnabledRoundedIcon />
+              </InputAdornment>
+            ),
+          }}
         />
-      </label>
-      <button className={css.form__btn} type="submit">
+        <TextField
+        variant='standard'
+        label='Info'
+        type="text"
+        name="info"
+        value={form.info}
+        onChange={handleInputsChange}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <InfoRoundedIcon />
+            </InputAdornment>
+          ),
+        }}
+        />
+      
+      <Button className={css.form__btn} type="submit">
         Add contact
         {isLoadingForm && <RotatingLines
          strokeColor="white"
@@ -75,7 +111,8 @@ export const Form = () => {
          width="20"
          visible={true}
          />}
-      </button>
+      </Button>
+      </FormGroup>
     </form>
   );
 };

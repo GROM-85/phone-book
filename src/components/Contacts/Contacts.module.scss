@@ -9,23 +9,31 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding:10px;
+        padding:10px 0;
         gap:25px;
         list-style: circle;
     }
     &__btn{
-        width:50px;
-        height:20px;
+        margin-top: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
         cursor:pointer;
         background-color: rgb(60, 244, 183);
-        padding:2px 4px;
+        padding:5px;
+        width:10%;
         border:none;
         border-radius: 3px;
         color:white;
+        &:hover,
+        &:focus{
+            background-color: red;
+        }
+        
 
+    }
+    &__title{
+        margin-bottom: 20px;
     }
 }
 

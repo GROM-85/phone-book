@@ -1,56 +1,34 @@
+import React, {lazy, useEffect} from 'react';
+import { Route, Routes } from 'react-router-dom';
+import SharedLayout from 'components/Layout/Layout';
+import { useDispatch } from 'react-redux';
+import { refreshUser } from 'redux/AuthSlice/operations';
+import { useAuth } from 'hooks/useAuth';
+import { RestrictedRoute } from 'components/RestrictedRoute';
+import { PrivateRoute } from 'components/PrivateRoute';
 
-import React, { useEffect } from 'react';
-import { Form } from 'components/Form';
-import { Contacts } from 'components/Contacts';
-import { Filter } from 'components/Filter/Filter';
-import { Container } from './App.styled';
-import { useDispatch, useSelector } from 'react-redux';
-import phoneBookSelectors from 'redux/PhoneBookSlice/selectors';
-import * as phoneBookOperations from 'redux/PhoneBookSlice/phoneBookOperations'
-import { RotatingLines } from 'react-loader-spinner';
-
+// const SharedLayout = lazy(() => import('../../components/Layout/Layout'));
+const HomePage = lazy(() => import('../../pages/Home'));
+const RegisterPage = lazy(() => import('../../pages/Register'))
+const LoginPage = lazy(() => import('../../pages/Login'));
+const ContactsPage = lazy(() => import('../../pages/ContactsPage'))
 
 export const App = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(phoneBookSelectors.getContacts);
-  const filter = useSelector(phoneBookSelectors.getFilter);
-  const isLoading = useSelector(phoneBookSelectors.getIsLoading);
-
-  const filterContacts = () => {
-    const formatedName = filter.trim().toLowerCase();
-    return contacts.filter(contact => contact.name.toLowerCase().includes(formatedName));
-  };
+  const {isRefreshing} = useAuth();
 
   useEffect(()=>{
-    dispatch(phoneBookOperations.fetchContacts());
-    console.log("useEffect")
-  },[dispatch]);
- 
+    dispatch(refreshUser())
+  },[dispatch])
 
   return (
-    <Container>
-      <h2>PhoneBook</h2>
-      <Form />
-
-      {contacts.length === 0  && !isLoading && 
-        (<h3>Nothing to show yet!</h3>)}
-        {isLoading ? (<RotatingLines
-         strokeColor="grey"
-         strokeWidth="5"
-         animationDuration="0.75"
-         width="40"
-         visible={true}
-         />): (<Contacts
-          contacts={filterContacts()}
-          title="Contacts"
-        >
-          <Filter />
-        </Contacts>)}
-    </Container>
-  );
+      (!isRefreshing && <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path='login' element={<RestrictedRoute component={<LoginPage/>} redirectTo='/contacts'/>}/>
+          <Route path='register' element={<RestrictedRoute component={<RegisterPage/>} redirectTo='/login'/>}/>
+          <Route path='contacts' element={<PrivateRoute component={<ContactsPage/>} redirectTo='/login'/>}/>
+        </Route>
+      </Routes>)
   
-}
-
-
-
-
+)};
