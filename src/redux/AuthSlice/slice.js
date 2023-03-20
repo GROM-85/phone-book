@@ -18,6 +18,7 @@ const authSlice = createSlice({
             state.user = payload.user;
             state.token = payload.token;
             state.isRegistered = true;
+            state.isLoggedIn = true;
             toast.success('User created successfuly!')
         })
         .addCase(register.rejected,(state,action) =>{})
@@ -42,7 +43,7 @@ const authSlice = createSlice({
             state.isRefreshing = true;
         })
         .addCase(refreshUser.fulfilled,(state,{payload})=>{
-            console.log('userREfresh',payload)
+            console.log('userRefresh',payload)
             state.user = payload;
             state.isLoggedIn = true;
             state.isRefreshing= false;

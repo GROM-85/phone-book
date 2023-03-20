@@ -23,6 +23,7 @@ const phoneBookSlice = createSlice({
     error: null,
     filter: '',
     activeId :[],
+    isTabletWidth:false,
   },
   reducers: {
     setFilter: (state, { payload }) => {
@@ -30,6 +31,9 @@ const phoneBookSlice = createSlice({
     },
     setActiveId:(state,{payload})=>{
       state.activeId.push(payload);
+    },
+    setIsTablet:(state,{payload})=>{
+      state.isTabletWidth = payload;
     }
   },
   extraReducers: builder => {
@@ -72,7 +76,7 @@ const phoneBookSlice = createSlice({
 
 export const phoneBookReducer = phoneBookSlice.reducer;
 export const phoneBookActions = phoneBookSlice.actions;
-export const {setFilter,setActiveId} = phoneBookSlice.actions;
+export const {setFilter,setActiveId,setIsTablet} = phoneBookSlice.actions;
 export default phoneBookSlice;
 
 

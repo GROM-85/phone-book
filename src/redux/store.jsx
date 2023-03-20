@@ -16,7 +16,7 @@ import { authReducer } from "./AuthSlice/slice";
 const authPersistConfig = {
     key:'auth',
     storage,
-    whitelist:['token']
+    whitelist:['token'],
 }
 const contactPersistConfig = {
     key:'phoneBook',

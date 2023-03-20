@@ -6,5 +6,6 @@ const phoneBookSelectors = {
     getError: state => state.phoneBook.error,
     getFilter:state=>state.phoneBook.filter,
     getActiveId:state=>state.phoneBook.activeId,
+    getIsTabletWidth:state=>state.phoneBook.isTabletWidth,
 };
 export default phoneBookSelectors;

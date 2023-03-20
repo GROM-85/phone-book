@@ -6,6 +6,7 @@ import { refreshUser } from 'redux/AuthSlice/operations';
 import { useAuth } from 'hooks/useAuth';
 import { RestrictedRoute } from 'components/RestrictedRoute';
 import { PrivateRoute } from 'components/PrivateRoute';
+// import { setIsTablet } from "redux/PhoneBookSlice/slice";
 
 // const SharedLayout = lazy(() => import('../../components/Layout/Layout'));
 const HomePage = lazy(() => import('../../pages/Home'));
@@ -15,18 +16,19 @@ const ContactsPage = lazy(() => import('../../pages/ContactsPage'))
 
 export const App = () => {
   const dispatch = useDispatch();
-  const {isRefreshing} = useAuth();
+  const {isRefreshing,isLoggedIn} = useAuth();
 
   useEffect(()=>{
+    // if(!isLoggedIn) return;
     dispatch(refreshUser())
-  },[dispatch])
+  },[dispatch,isLoggedIn])
 
   return (
       (!isRefreshing && <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<HomePage />} />
           <Route path='login' element={<RestrictedRoute component={<LoginPage/>} redirectTo='/contacts'/>}/>
-          <Route path='register' element={<RestrictedRoute component={<RegisterPage/>} redirectTo='/login'/>}/>
+          <Route path='register' element={<RestrictedRoute component={<RegisterPage/>} redirectTo='/contacts'/>}/>
           <Route path='contacts' element={<PrivateRoute component={<ContactsPage/>} redirectTo='/login'/>}/>
         </Route>
       </Routes>)

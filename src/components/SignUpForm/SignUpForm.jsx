@@ -1,8 +1,8 @@
-import { useAuth } from 'hooks/useAuth';
+// import { useAuth } from 'hooks/useAuth';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { register } from 'redux/AuthSlice/operations';
-import { useEffect, useReducer, useState } from 'react';
+import { useReducer, useState } from 'react';
 import css from './SignUpForm.module.scss';
 
 // MUI
@@ -40,7 +40,7 @@ export const SignUpForm = () => {
   const navigate = useNavigate();
   const [agree, setAgree] = useState(false);
   const [inputValues, setInputValues] = useReducer(formReducer, initState);
-  const { isRegistered } = useAuth();
+  // const { isRegistered } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword(show => !show);
@@ -48,7 +48,8 @@ export const SignUpForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(register({ ...inputValues }));
-    e.currentTarget.reset();
+    navigate('/contacts', { replace: true });
+    // e.currentTarget.reset();
   };
 
   const handleAgreement = e => {
@@ -56,11 +57,11 @@ export const SignUpForm = () => {
     setAgree(checked);
   };
 
-  useEffect(() => {
-    if (isRegistered) {
-        navigate('/login', { replace: true });
-      }
-  },[navigate,isRegistered])
+  // useEffect(() => {
+  //   if (isRegistered) {
+  //       navigate('/login', { replace: true });
+  //     }
+  // },[navigate,isRegistered])
   
 
   const { name, email, password } = inputValues;
