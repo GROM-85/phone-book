@@ -1,10 +1,7 @@
-// import { useAuth } from 'hooks/useAuth';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { register } from 'redux/AuthSlice/operations';
-import { useReducer, useState } from 'react';
 import css from './SignUpForm.module.scss';
-import { Formik, Field, Form, useFormik } from 'formik';
+import { Formik, Field, Form} from 'formik';
 import schemaSignUp from 'utils/SchemaSignUp';
 
 // MUI
@@ -24,6 +21,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import { useState } from 'react';
 
 const initState = {
   name:'',
@@ -33,10 +31,10 @@ const initState = {
   termsCheck:false,
 };
 
-const formReducer = (state = initState, { target: { name, value } }) => ({
-  ...state,
-  [name]: value,
-});
+// const formReducer = (state = initState, { target: { name, value } }) => ({
+//   ...state,
+//   [name]: value,
+// });
 
 export const SignUpForm = () => {
   const dispatch = useDispatch();

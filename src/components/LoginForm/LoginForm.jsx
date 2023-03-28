@@ -11,13 +11,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Formikm,useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { login } from 'redux/AuthSlice/operations';
 import css from './LoginForm.module.scss';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import {Visibility, VisibilityOff } from '@mui/icons-material';
-import { useReducer, useState } from 'react';
+import {  useState } from 'react';
 import schemaSignIn from 'utils/SchemaSignIn';
 
 const initState = {
@@ -25,9 +25,9 @@ const initState = {
   password: '',
   remember:false,
 };
-const formReducer = (state = initState, { _, target: { name, value } }) => {
-  return { ...state, [name]: value };
-};
+// const formReducer = (state = initState, { _, target: { name, value } }) => {
+//   return { ...state, [name]: value };
+// };
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ export const LoginForm = () => {
   
   // const { email, password } = inputValues;
   // const canSubmit = email && password.length > 5
-  const {handleChange,handleSubmit,isValid,dirty,errors,touched} = formik;
+  const {handleChange,handleSubmit,errors,touched} = formik;
   const {email,password,remember} = formik.values;
   return (
     <div className={css.paper}>
