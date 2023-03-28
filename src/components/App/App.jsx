@@ -6,19 +6,18 @@ import { refreshUser } from 'redux/AuthSlice/operations';
 import { useAuth } from 'hooks/useAuth';
 import { RestrictedRoute } from 'components/RestrictedRoute';
 import { PrivateRoute } from 'components/PrivateRoute';
-// import { setIsTablet } from "redux/PhoneBookSlice/slice";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-// const SharedLayout = lazy(() => import('../../components/Layout/Layout'));
 const HomePage = lazy(() => import('../../pages/Home'));
 const RegisterPage = lazy(() => import('../../pages/Register'))
 const LoginPage = lazy(() => import('../../pages/Login'));
-const ContactsPage = lazy(() => import('../../pages/ContactsPage'))
+const ContactsPage = lazy(() => import('../../pages/ContactsPage/ContactsPage'));
 
 export const App = () => {
   const dispatch = useDispatch();
   const {isRefreshing,isLoggedIn} = useAuth();
 
-  useEffect(()=>{
+  useEffect(() => {
     // if(!isLoggedIn) return;
     dispatch(refreshUser())
   },[dispatch,isLoggedIn])
@@ -32,5 +31,4 @@ export const App = () => {
           <Route path='contacts' element={<PrivateRoute component={<ContactsPage/>} redirectTo='/login'/>}/>
         </Route>
       </Routes>)
-  
 )};

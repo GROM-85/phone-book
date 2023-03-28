@@ -21,7 +21,9 @@ const authSlice = createSlice({
             state.isLoggedIn = true;
             toast.success('User created successfuly!')
         })
-        .addCase(register.rejected,(state,action) =>{})
+        .addCase(register.rejected,(state,action) =>{
+            toast.error('Error occured during registration!')
+        })
         .addCase(login.pending,(state,action) =>{})
         .addCase(login.fulfilled,(state,{payload}) =>{
             state.user = payload.user;

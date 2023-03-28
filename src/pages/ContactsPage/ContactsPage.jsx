@@ -7,12 +7,15 @@ import phoneBookSelectors from 'redux/PhoneBookSlice/selectors';
 import * as phoneBookOperations from 'redux/PhoneBookSlice/phoneBookOperations';
 import { Contacts } from 'components/Contacts';
 import { Typography } from '@mui/material';
+import { ContactsForm } from './ContactsPage.styled';
+import { useWindowSize } from 'react-use';
 
 const ContactsPage = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(phoneBookSelectors.getContacts);
   const filter = useSelector(phoneBookSelectors.getFilter);
   const isLoading = useSelector(phoneBookSelectors.getIsLoading);
+  const {width} = useWindowSize();
 
   const filterContacts = () => {
     const formatedName = filter.trim().toLowerCase();
@@ -26,19 +29,11 @@ const ContactsPage = () => {
   }, [dispatch]);
 
   return (
-    <Container>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          marginTop:'20px',
-          marginBottom:'auto'
-        }}
-      >
+    <Container width={width}>
+      <ContactsForm>
         <Typography component="h3" variant="h5" style={{marginBottom:'20px'}}>PhoneBook</Typography>
         <Form />
-      </div>
+      </ContactsForm>
       <div
         style={{
           display: 'flex',

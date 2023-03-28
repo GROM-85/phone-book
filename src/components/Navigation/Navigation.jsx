@@ -1,33 +1,35 @@
-import { Typography } from "@mui/material";
+import { Menu, MenuItem, Typography } from "@mui/material";
 import { NavLinkStyled } from "components/App/App.styled";
 import { useAuth } from "hooks/useAuth";
 import MenuIcon from '@mui/icons-material/Menu';
-import { useMemo} from "react";
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import { Link} from "react-router-dom";
+import { useState } from "react";
+import styled from "@emotion/styled";
+import ImportContactsRoundedIcon from '@mui/icons-material/ImportContactsRounded';
 // import phoneBookSelectors from "redux/PhoneBookSlice/selectors";
 // import { useDispatch, useSelector } from "react-redux";
 // import { setIsTablet } from "redux/PhoneBookSlice/slice";
 
+const StyledMenuItem = styled(MenuItem)`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap:6px;
+  color:rgb(28,118,210);
+`
+
 export const Navigation = () => {
   const {isLoggedIn,isRegistered} = useAuth();
-  // const [isTablet,setTablet] = useState(false);
-  // const isTabletWidth = useSelector(phoneBookSelectors.getIsTabletWidth);
-  // const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
-  // useEffect(() => {
-  //   console.log(window.innerWidth);
-  //   function handleWindowWidth(){
-  //     if(window.innerWidth >= 786) {
-  //       dispatch(setIsTablet(false));
-  //       setTablet(false);
-  //       return
-  //     };
-  //       dispatch(setIsTablet(true));
-  //       setTablet(true);
-  //   }
-  //   handleWindowWidth();
-  //   // window.addEventListener('load',handleWindowWidth);
-  //   // return () => window.removeEventListener('load',handleWindowWidth)
-  // },[]);
+  const handleMenuBurger = (e) =>{
+    setAnchorEl(e.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   function handleWindowWidth(){
     if(window.innerWidth >= 786) {
@@ -35,14 +37,35 @@ export const Navigation = () => {
     };
      return true;
   }
-  const isTablet = useMemo(() => handleWindowWidth(),[]);
-
-  console.log('isTablet',isTablet)
+  
+  const isTablet = handleWindowWidth();
+  
     return(
         <nav style={{display:'flex',gap:'30px',color:'white'}}>
 
       {isTablet ? 
-      <MenuIcon/> : 
+      <>
+      <MenuIcon
+            style={{ cursor: 'pointer' }}
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleMenuBurger} />
+        <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <StyledMenuItem component={Link} to='/' onClick={handleClose} ><HomeRoundedIcon fontSize="small" style={{transform:'rotate(-15deg)'}}/> Home</StyledMenuItem>
+        {(isLoggedIn || isRegistered) && <StyledMenuItem onClick={handleClose} component={Link} to='/contacts'><ImportContactsRoundedIcon fontSize="small" style={{transform:'rotate(-15deg)'}}/> Contacts</StyledMenuItem>}
+        
+      </Menu>
+        </>
+      : 
       <>
       <NavLinkStyled  to="/" >
         <Typography component='h3' variant="h5" >Home</Typography>

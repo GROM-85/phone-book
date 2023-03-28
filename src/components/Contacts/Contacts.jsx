@@ -87,32 +87,6 @@ const Contact = ({ name = '', number = '', id = '' }) => {
           </Button>
         </AccordionDetails>
       </Accordion>
-      {/* <p>
-        {name} : {number}
-      </p>
-      <button
-        className={css.contact__btn}
-        type="button"
-        onClick={() => {
-          dispatch(phoneBookOperations.deleteContact(id));
-          dispatch(setActiveId(id));
-        }}
-      >
-        {(isLoadingDelete && activeId.includes(id)) ? (
-          <ThreeDots
-            height="10"
-            width="20"
-            radius="9"
-            color="white"
-            ariaLabel="three-dots-loading"
-            wrapperStyle={{}}
-            wrapperClassName=""
-            visible={true}
-          />
-        ) : (
-          'Delete'
-        )}
-      </button> */}
     </motion.li>
   );
 };

@@ -2,26 +2,13 @@ import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
 
 export const Container = styled.div`
+  width:100%;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  justify-content: center;
   gap: 30px;
-  padding: 10px;
-  margin: 0 auto;
-  padding: 0 16px;
-
-  @media screen and (min-width: 360px) {
-    width: 360px;
-  }
-
-  @media screen and (min-width: 480px) {
-    width: 480px;
-    padding: 0 24px;
-  }
-
-  @media screen and (min-width: 768px) {
-    width: 768px;
-  }
+  padding: 20px 26px;
+  flex-direction: ${({width})=> (width >=860 ? 'row': 'column')};
+  
 `;
 
 export const NavLinkStyled = styled(NavLink)`
@@ -37,12 +24,18 @@ export const NavLinkStyled = styled(NavLink)`
     width: 100%;
     position: absolute;
     bottom: 2px;
-    background-color: currentColor;
+    background-color: white;
     transform: scale(0);
     transition: all 0.25s ease;
   }
 
-  &:hover::before {
+  &:hover::before,
+  &:focus::before {
+    color:currentColor;
     transform: scale(1);
+  }
+  &:focus,
+  &:hover{
+    color:white;
   }
 `;

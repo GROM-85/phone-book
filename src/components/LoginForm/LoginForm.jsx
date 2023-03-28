@@ -11,16 +11,19 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { Formikm,useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { login } from 'redux/AuthSlice/operations';
 import css from './LoginForm.module.scss';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import {Visibility, VisibilityOff } from '@mui/icons-material';
 import { useReducer, useState } from 'react';
+import schemaSignIn from 'utils/SchemaSignIn';
 
 const initState = {
   email: '',
   password: '',
+  remember:false,
 };
 const formReducer = (state = initState, { _, target: { name, value } }) => {
   return { ...state, [name]: value };
@@ -28,32 +31,28 @@ const formReducer = (state = initState, { _, target: { name, value } }) => {
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
-  const [remember,setRemember] = useState(false);
-  const [inputValues, dispatchInputs] = useReducer(formReducer, initState);
+  // const [remember,setRemember] = useState(false);
+  // const [inputValues, dispatchInputs] = useReducer(formReducer, initState);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleClickShowPassword = () => setShowPassword( show => !show);
-  const handleRemember = ({target:{checked}}) => setRemember(checked);
-  
-  const handleSubmit = e => {
-    e.preventDefault();
-    dispatch(login({ ...inputValues }));
-  };
-  const { email, password } = inputValues;
-  const canSubmit = email && password.length > 5
-  return (
-    //   <form className='' onSubmit={handleSubmit} autoComplete="off">
-    //         <label className=''>
-    //             Email
-    //             <input type="email" name="email" />
-    //         </label>
-    //         <label className=''>
-    //             Password
-    //             <input type="password" name="password" />
-    //         </label>
-    //         <button type="submit">Log In</button>
+  const formik = useFormik({
+    initialValues:initState,
+    validationSchema:schemaSignIn,
+    onSubmit:(values,actions) => {
+      dispatch(login({ ...values }));
+      actions.resetForm();
+    }
+  })
 
-    //     </form>
+  const handleClickShowPassword = () => setShowPassword( show => !show);
+  // const handleRemember = ({target:{checked}}) => setRemember(checked);
+  
+  
+  // const { email, password } = inputValues;
+  // const canSubmit = email && password.length > 5
+  const {handleChange,handleSubmit,isValid,dirty,errors,touched} = formik;
+  const {email,password,remember} = formik.values;
+  return (
     <div className={css.paper}>
       <Avatar className={css.avatar}>
         <LockOpenOutlinedIcon />
@@ -64,24 +63,26 @@ export const LoginForm = () => {
       <form action="" className={css.form}  onSubmit={handleSubmit} >
         <FormGroup sx={{ gap: 2, width: '100%' }}>
           <TextField
-            required
             fullWidth
             label="Email"
             variant="outlined"
             name="email"
             type="email"
             value={email}
-            onChange={dispatchInputs}
+            onChange={handleChange}
+            error={Boolean(errors.email) && Boolean(touched.email)}
+            helperText={Boolean(touched.email) && errors.email}
           />
           <TextField
-            required
             fullWidth
             label="Password"
             variant="outlined"
             name="password"
             type={showPassword ?'text': 'password'}
             value={password}
-            onChange={dispatchInputs}
+            error={Boolean(errors.password) && Boolean(touched.password)}
+            helperText={Boolean(touched.password) && errors.password}
+            onChange={handleChange}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -97,11 +98,15 @@ export const LoginForm = () => {
             }}
           />
           <FormControlLabel
-            control={<Checkbox checked={remember} onChange={handleRemember} />}
+            control={<Checkbox checked={remember} onChange={handleChange} />}
+            name='remember'
             label="Remember me"
           />
           
-          <Button disabled={!canSubmit} type="submit" variant="contained">
+          <Button 
+          // disabled={!isValid || !dirty}  !IMPORTANT =>DONT USE DIABLE IN THIS VARIANT
+          type="submit"
+           variant="contained">
             Sign In
           </Button>
           <Grid className={css.link}>

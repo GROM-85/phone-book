@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { motion} from 'framer-motion';
+import { useWindowSize } from 'react-use';
 import imgHome from '../img/homeImg.jpg';
 
 const StyledDivHome = styled.div`
@@ -13,18 +14,19 @@ const StyledDivHome = styled.div`
   background-color: rgb(24, 28, 52);
 `;
 
-const styledMainHeader = {
-  position: 'absolute',
-  top: '30%',
-  left: '200px',
-  zIndex: 1,
-  fontSize: '45px',
-  fontWeight: 700,
-  fontFamily: 'Montserrat',
-  color: 'white',
-  display: 'flex',
-  overflow: 'hidden',
-};
+const StyledMainHeader = styled.div`
+  position: absolute;
+  width:100%;
+  top: ${({width})=>(width >=768 ? '30%': width >=480 ? '18%':'15%')};
+  left: ${({width})=>(width >=768 ? '45px': width >=480 ? '35px':'40px')};
+  z-index: 1;
+  font-size: ${({width})=>(width >=768 ? '45px': width >=480 ? '35px':'22px')};
+  font-weight: 700;
+  font-family: 'Montserrat';
+  color: white;
+  display: flex;
+  overflow: hidden;
+`;
 
 const StyledImgContainer = styled.div`
   overflow: hidden;
@@ -33,8 +35,9 @@ const StyledImgContainer = styled.div`
 
 const BackGround = styled.div`
   position: absolute;
-  width: 920px;
-  height: 700px;
+  margin:0 auto;
+  width: ${({width})=>(width >=768 ? '970px': width >=480 ? '630px':'320px')};
+  height: ${({width})=>(width >=768 ? '600px':width>=480 ?'480px':'230px')};
   border-radius: 20vh;
   background: linear-gradient(306deg, white, white);
 `;
@@ -44,7 +47,7 @@ const cardVariants = {
     y: 300,
   },
   onscreen: {
-    y: 50,
+    y: 10,
     rotate: -10,
     transition: {
       type: 'spring',
@@ -84,33 +87,36 @@ const lettersContainer = {
 
 const HomePage = () => {
   const letters = Array.from('PhoneBook APP');
+  const {width} = useWindowSize();
   return (
     <StyledDivHome>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <motion.div
-          style={styledMainHeader}
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <StyledMainHeader
+          as={motion.div}
           variants={lettersContainer}
           initial="hidden"
           animate="visible"
+          width={width}
         >
           {letters.map((letter, idx) => (
             <motion.span variants={letterSpacingVariant} key={idx}>
               {letter === ' ' ? '\u00A0' : letter}
             </motion.span>
           ))}
-        </motion.div>
+        </StyledMainHeader>
         <motion.div
+        style={{display:'flex',justifyContent:'flex-start',alignItems:'center'}}
           initial="offscreen"
           whileInView="onscreen"
           viewport={{ once: true, amount: 0.8 }}
         >
-          <BackGround />
+          <BackGround width={width}/>
           <motion.div variants={cardVariants}>
-            <StyledImgContainer>
+            <StyledImgContainer width={width}>
               <img
                 src={imgHome}
                 alt="laptop&coffee"
-                width="950"
+                width={width>=768 ? '950px': width>=480 ?'620px':'320'}
                 style={{ display: 'block' }}
               />
             </StyledImgContainer>
