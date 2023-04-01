@@ -204,7 +204,7 @@ export const SignUpForm = () => {
       </Formik>
       <Grid className={css.link}>
         <Grid item>
-          <Link href="/login" variant="body2">
+          <Link href="login" variant="body2">
             Already have an account? Sign in
           </Link>
         </Grid>
